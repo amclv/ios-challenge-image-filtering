@@ -11,9 +11,20 @@ import UIKit
 class ImageFilterer {
     
     let context = CIContext(options: nil)
+    let inputImage = UIImage(named: "Lion")
+    let filterNames = CIFilter.filterNames(inCategories: nil)
     
     func filterImage(_ image: UIImage?) -> UIImage? {
-        // Remove this `return nil` when you work on this function. This is just here to have the compiler not throw an error.
-        return nil
+        // convert UIImage to CIImage
+        let inputCIImage = CIImage(image: inputImage!)
+        
+        // Create Blur CIFilter, and set the input image
+        let blurFilter = CIFilter(name: "CIGaussianBlur")!
+        blurFilter.setValue(inputCIImage, forKey: kCIInputImageKey)
+        blurFilter.setValue(9, forKey: kCIInputRadiusKey)
+
+        // Get the filtered output image and return it
+        let outputImage = blurFilter.outputImage!
+        return UIImage(ciImage: outputImage)
     }
 }
